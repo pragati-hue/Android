@@ -1,0 +1,91 @@
+Q1 main.xml
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/num"
+        android:hint="Enter number"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn"
+        android:text="Find Factorial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+
+main.java
+package com.example.s2;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText num;
+    Button btn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        num = findViewById(R.id.num);
+        btn = findViewById(R.id.btn);
+
+        btn.setOnClickListener(v -> {
+            int n = Integer.parseInt(num.getText().toString());
+
+            Intent i = new Intent(MainActivity.this, ResultActivity.class);
+            i.putExtra("number", n);
+            startActivity(i);
+        });
+    }
+}
+ativity_Result.xml
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/result"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+
+ResultActivity.java
+package com.example.s2;
+
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ResultActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_result);
+
+        TextView tv = findViewById(R.id.result);
+
+        int n = getIntent().getIntExtra("number", 0);
+
+        int fact = 1;
+        for(int i = 1; i <= n; i++) {
+            fact *= i;
+        }
+
+        tv.setText("Factorial = " + fact);
+    }
+}
